@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('email');
             $table->string('account');
             $table->uuid('uuid');
-            $table->foreignId('user_id');
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }
