@@ -7,12 +7,38 @@ use App\Repositories\Contracts\AccountRepositoryInterface;
 
 class AccountRepository implements AccountRepositoryInterface
 {
-    public function __construct(protected Account $entity)
+    public function __construct(
+        private Account $entity
+    ) {
+    }
+
+    public function all()
+    {
+        return $this->entity->all();
+    }
+
+    public function create(array $data)
+    {
+        $this->entity->create($data);
+    }
+
+    public function delete(int $id)
     {
     }
 
-    public function store(array $data)
+    public function byUuid(string $uuid)
     {
-        $this->entity->create($data);
+
+        return $this->entity->where('uuid', $uuid)->first();
+    }
+
+    public function update(Account $account, array $data)
+    {
+        $account->update($data);
+    }
+
+    public function destroyByUuid(string $uuid)
+    {
+        $this->entity->where('uuid', $uuid)->delete();
     }
 }

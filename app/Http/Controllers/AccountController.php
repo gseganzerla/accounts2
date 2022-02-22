@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUpdateAccount;
+use App\Http\Resources\AccountResource;
 use App\Models\Account;
 use App\Services\AccountService;
 
@@ -20,7 +21,9 @@ class AccountController extends Controller
      */
     public function index()
     {
-        //
+        $accounts = $this->service->index();
+
+        return AccountResource::collection($accounts);
     }
 
     /**
@@ -44,7 +47,9 @@ class AccountController extends Controller
      */
     public function show(Account $account)
     {
-        //
+        $account = $this->service->show($account->uuid);
+
+        return new AccountResource($account);
     }
 
     /**
@@ -56,7 +61,9 @@ class AccountController extends Controller
      */
     public function update(StoreUpdateAccount $request, Account $account)
     {
-        //
+        $this->service->update($account, $request->all());
+
+        return response()->json(['message' => 'Conta atualizada com sucesso']);
     }
 
     /**
@@ -67,6 +74,8 @@ class AccountController extends Controller
      */
     public function destroy(Account $account)
     {
-        //
+        $this->service->destroy($account->uuid);
+
+        return response()->json(['message' => 'Deletada com sucesso'], 204);
     }
 }

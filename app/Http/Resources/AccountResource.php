@@ -18,6 +18,7 @@ class AccountResource extends JsonResource
             'uuid' => $this->uuid,
             'username' => $this->username,
             'email' => $this->email,
+            'account' => $this->account
         ];
     }
 }
