@@ -42,6 +42,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function getRouteKeyName()
+    {
+        return 'uuid';
+    }
+
     public function accounts() 
     {
         return $this->hasMany(Account::class);
