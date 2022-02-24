@@ -11,6 +11,9 @@ services:
     image: laravel-app
     restart: unless-stopped
     working_dir: /var/www
+    depends_on:
+      - redis
+      - queue
     volumes:
       - ./:/var/www
     networks:
@@ -40,6 +43,27 @@ services:
       - 3306:3306
     volumes:
       - ./.docker/mariadb/dbdata:/var/lib/mysql
+    networks:
+      - accounts2
+
+  redis:
+    image: redis:latest
+    restart: unless-stopped
+    ports:
+      - 6379:6379
+    networks:
+      - accounts2
+
+  queue:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    volumes:
+      - ./:/var/www
+    command: "php artisan queue:work"
+    depends_on:
+      - redis
     networks:
       - accounts2
 
