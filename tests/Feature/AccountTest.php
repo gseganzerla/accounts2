@@ -119,6 +119,11 @@ class AccountTest extends TestCase
         $response->assertStatus(204);
     }
 
+    public function test_search_account() 
+    {
+        //Code
+    }
+
 
     private function createAccount(int $count = 1)
     {
