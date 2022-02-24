@@ -10,6 +10,6 @@ interface UserRepositoryInterface
     public function update(User $user, array $data);
     public function destroy(User $user);
     public function byUuid(string $uuid): User;
-    public function byEmail(string $email): User;
+    public function byEmail(string $email): ?User;
     public function updatePassword(user $user, string $password);
 }
