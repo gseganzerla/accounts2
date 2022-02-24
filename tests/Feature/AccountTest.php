@@ -119,15 +119,39 @@ class AccountTest extends TestCase
         $response->assertStatus(204);
     }
 
-    public function test_search_account() 
+    public function test_search_account()
     {
-        //Code
+        $params = [
+            'email' => 'fake@fake.com',
+            'account' => 'fake account'
+        ];
+
+        $this->createAccount(
+            params: $params,
+        );
+
+        $response = $this->getJson(
+            route('accounts.index', ['search' => 'fake'])
+        );
+
+
+        $response->assertJson(
+            fn (AssertableJson $json) =>
+            $json->has(
+                'data',
+                1,
+                fn ($json) =>
+                $json->where('email', $params['email'])
+                    ->where('account', $params['account'])
+                    ->etc()
+            )
+        );
     }
 
 
-    private function createAccount(int $count = 1)
+    private function createAccount(int $count = 1, array $params = [])
     {
-        $collection = Account::factory()->count($count)->create();
+        $collection = Account::factory()->count($count)->create($params);
 
         if ($count == 1) {
             return $collection->first();

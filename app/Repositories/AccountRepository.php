@@ -16,7 +16,7 @@ class AccountRepository implements AccountRepositoryInterface
     {
         return $this->entity
             ->search($filter)
-            ->paginate();
+            ->get();
     }
 
     public function create(array $data)
