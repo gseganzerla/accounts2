@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Events\Registered;
+use App\Jobs\UserCreatedJob;
 use App\Models\User;
 use App\Repositories\Contracts\UserRepositoryInterface;
 use Illuminate\Support\Facades\Hash;
@@ -18,6 +20,8 @@ class AuthService
     {
         $user = $this->userRepository->create($data);
 
+        UserCreatedJob::dispatch($user);
+
         return $user->createToken('login')->plainTextToken;
     }
 
@@ -28,6 +32,8 @@ class AuthService
         if (!$user || !Hash::check($data['password'], $user->password)) {
             return false;
         }
+
+        Registered::dispatch($user);
 
         return $user->createToken('login')->plainTextToken;
     }
