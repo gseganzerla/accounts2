@@ -6,7 +6,7 @@ use App\Models\Account;
 
 interface AccountRepositoryInterface
 {
-    public function all();
+    public function all(?string $filter);
     public function update(Account $account, array $data);
     public function create(array $data);
     public function byUuid(string $uuid);
