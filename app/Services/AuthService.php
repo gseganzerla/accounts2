@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Events\Registered;
+// use App\Events\Registered;
 use App\Jobs\UserCreatedJob;
 use App\Models\User;
 use App\Repositories\Contracts\UserRepositoryInterface;
@@ -33,7 +33,7 @@ class AuthService
             return false;
         }
 
-        Registered::dispatch($user);
+        // Registered::dispatch($user);
 
         return $user->createToken('login')->plainTextToken;
     }

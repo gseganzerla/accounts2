@@ -16,3 +16,8 @@ Route::group(['prefix' => 'home', 'middleware' => 'auth:sanctum'], function () {
     Route::apiResource('accounts', AccountController::class);
     Route::apiResource('users', UserController::class);
 });
+
+Route::get('/', function () {
+    xdebug_info();
+    exit;
+});
