@@ -4,6 +4,8 @@ FROM php:8.0-fpm
 ARG user
 ARG uid
 
+EXPOSE 9003
+
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
     git \
@@ -33,7 +35,10 @@ RUN pecl install -o -f redis \
     &&  rm -rf /tmp/pear \
     &&  docker-php-ext-enable redis
 
+RUN pecl install xdebug \
+    && docker-php-ext-enable xdebug
+
 # Set working directory
-WORKDIR /var/www
+WORKDIR /var/www/
 
 # USER $user

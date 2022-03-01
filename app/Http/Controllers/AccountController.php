@@ -25,6 +25,8 @@ class AccountController extends Controller
 
         $accounts = $this->service->index($request->query('search'));
 
+        $a = 'test';
+
         return AccountResource::collection($accounts);
     }
 
