@@ -9,23 +9,21 @@ use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
-    private $authService;
 
-    public function __construct(AuthService $authService)
+    public function __construct(protected AuthService $service)
     {
-        $this->authService = $authService;
     }
 
     public function register(StoreUser $request)
     {
-        $token = $this->authService->register($request->all());
+        $token = $this->service->register($request->all());
 
         return response()->json(['token' => $token], 201);
     }
 
     public function login(LoginUser $request) 
     {
-        $token = $this->authService->login($request->all());
+        $token = $this->service->login($request->all());
 
         if (!$token) {
             return response()->json(['message' => 'Credenciais invalidas'], 401);
@@ -36,6 +34,6 @@ class AuthController extends Controller
 
     public function logout(Request $request) 
     {
-        $this->authService->logout($request->user());
+        $this->service->logout($request->user());
     }
 }

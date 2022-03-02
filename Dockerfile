@@ -4,6 +4,8 @@ FROM php:8.0-fpm
 ARG user
 ARG uid
 
+EXPOSE 9003
+
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
     git \
@@ -24,16 +26,19 @@ RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd sockets
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Create system user to run Composer and Artisan Commands
-RUN useradd -G www-data,root -u $uid -d /home/$user $user
-RUN mkdir -p /home/$user/.composer && \
-    chown -R $user:$user /home/$user
+# RUN useradd -G www-data,root  -d /home/$user $user
+# RUN mkdir -p /home/$user/.composer && \
+#     chown -R $user:$user /home/$user
 
 # Install redis
 RUN pecl install -o -f redis \
     &&  rm -rf /tmp/pear \
     &&  docker-php-ext-enable redis
 
-# Set working directory
-WORKDIR /var/www
+RUN pecl install xdebug \
+    && docker-php-ext-enable xdebug
 
-USER $user
+# Set working directory
+WORKDIR /var/www/
+
+# USER $user

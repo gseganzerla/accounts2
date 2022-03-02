@@ -12,9 +12,9 @@ class AccountService
     ) {
     }
 
-    public function index()
+    public function index($filter)
     {
-        return $this->repository->all();
+        return $this->repository->all($filter);
     }
 
     public function store(array $data)

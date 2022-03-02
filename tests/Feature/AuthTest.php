@@ -2,8 +2,11 @@
 
 namespace Tests\Feature;
 
+use App\Jobs\UserCreatedJob;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\Queue;
 use Tests\TestCase;
 
 class AuthTest extends TestCase
@@ -38,6 +41,23 @@ class AuthTest extends TestCase
 
         $response->assertStatus(201);
     }
+
+    public function test_register_with_job_queued() 
+    {
+        Queue::fake();
+
+        $response = $this->postJson(route('auth.register'), $this->payload);
+
+        $this->assertDatabaseHas('users', [
+            'email' => $this->payload['email'],
+            'name' => $this->payload['name']
+        ]);
+
+        
+        $response->assertStatus(201);
+        Queue::assertPushed(UserCreatedJob::class);
+    }
+
 
     // change later
     // public function test_login()

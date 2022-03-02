@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Jobs\UserCreatedJob;
 use App\Models\User;
 use App\Repositories\Contracts\UserRepositoryInterface;
 use Illuminate\Support\Facades\Hash;
@@ -17,6 +18,8 @@ class AuthService
     public function register(array $data)
     {
         $user = $this->userRepository->create($data);
+
+        UserCreatedJob::dispatch($user);
 
         return $user->createToken('login')->plainTextToken;
     }

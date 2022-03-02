@@ -6,6 +6,7 @@ use App\Http\Requests\StoreUpdateAccount;
 use App\Http\Resources\AccountResource;
 use App\Models\Account;
 use App\Services\AccountService;
+use Illuminate\Http\Request;
 
 class AccountController extends Controller
 {
@@ -19,9 +20,10 @@ class AccountController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $accounts = $this->service->index();
+
+        $accounts = $this->service->index($request->query('search'));
 
         return AccountResource::collection($accounts);
     }

@@ -29,7 +29,7 @@ class UserRepository implements UserRepositoryInterface
         $user->delete();
     }
 
-    public function byEmail(string $email): User
+    public function byEmail(string $email): ?User
     {
         return $this->entity->where('email', $email)->first();
     }

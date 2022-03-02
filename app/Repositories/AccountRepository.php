@@ -12,9 +12,11 @@ class AccountRepository implements AccountRepositoryInterface
     ) {
     }
 
-    public function all()
+    public function all(?string $filter)
     {
-        return $this->entity->all();
+        return $this->entity
+            ->search($filter)
+            ->get();
     }
 
     public function create(array $data)
