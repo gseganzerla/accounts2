@@ -14,13 +14,15 @@ class AccountTest extends TestCase
 {
     use RefreshDatabase;
 
+    public $user;
+
     public function setUp(): void
     {
         parent::setUp();
 
-        Sanctum::actingAs(
-            User::factory()->create()
-        );
+        $this->user = User::factory()->create();
+
+        Sanctum::actingAs($this->user);
 
         $this->payload = [
             'username' => 'faker',
@@ -29,6 +31,7 @@ class AccountTest extends TestCase
             'account' => 'faker'
         ];
     }
+
 
     public function test_if_return_a_list_of_owns_accounts()
     {
@@ -149,9 +152,30 @@ class AccountTest extends TestCase
     }
 
 
+    public function test_action_account_does_not_belong_to_user()
+    {
+
+        $user = User::factory()->create();
+
+        $account = $this->createAccount();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->putJson(
+            route('accounts.update', $account->uuid),
+            $this->payload
+        );
+
+        $response->assertStatus(404);
+    }
+
+
     private function createAccount(int $count = 1, array $params = [])
     {
-        $collection = Account::factory()->count($count)->create($params);
+        $collection = Account::factory()
+            ->for($this->user)
+            ->count($count)
+            ->create($params);
 
         if ($count == 1) {
             return $collection->first();
