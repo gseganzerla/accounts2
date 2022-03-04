@@ -12,6 +12,7 @@ class AccountController extends Controller
 {
     public function __construct(protected AccountService $service)
     {
+        $this->authorizeResource(Account::class, 'account');
     }
 
 
