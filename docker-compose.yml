@@ -4,7 +4,7 @@ services:
   accounts2:
     build:
       args:
-        user: gseganzerla
+        user: ${DOCKER_USER}
         uid: 1000
       context: ./
       dockerfile: Dockerfile
@@ -20,10 +20,11 @@ services:
       - ./docker/php/conf.d/error_reporting.ini:/usr/local/etc/php/conf.d/error_reporting.ini
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    container_name: accounts2
     networks:
       - accounts2
 
-  nginx:
+  nginx_accounts2:
     image: nginx:stable
     restart: unless-stopped
     ports:
@@ -32,10 +33,11 @@ services:
     volumes:
       - ./:/var/www
       - ./docker/nginx/:/etc/nginx/conf.d/
+    container_name: nginx_accounts2
     networks:
       - accounts2
 
-  mariadb:
+  mariadb_accounts2:
     image: mariadb:latest
     restart: unless-stopped
     environment:
@@ -47,18 +49,20 @@ services:
       - 3306:3306
     volumes:
       - ./.docker/mariadb/dbdata:/var/lib/mysql
+    container_name: mariadb_accounts2
     networks:
       - accounts2
 
-  redis:
+  redis_accounts2:
     image: redis:latest
     restart: unless-stopped
     ports:
       - 6379:6379
+    container_name: redis_accounts2
     networks:
       - accounts2
 
-  queue:
+  queue_accounts2:
     build:
       context: ./
       dockerfile: Dockerfile
@@ -68,6 +72,7 @@ services:
     command: "php artisan queue:work"
     depends_on:
       - redis
+    container_name: queue_accounts2
     networks:
       - accounts2
 
