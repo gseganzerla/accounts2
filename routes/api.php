@@ -12,12 +12,12 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('/auth/login', 'login')->name('auth.login');
 });
 
-Route::group(['prefix' => 'home', 'middleware' => 'auth:sanctum'], function () {
+Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource('accounts', AccountController::class);
     Route::apiResource('users', UserController::class);
 });
 
-Route::get('/', function () {
-    xdebug_info();
-    exit;
-});
+// Route::get('/', function () {
+//     xdebug_info();
+//     exit;
+// });

@@ -21,18 +21,20 @@ class AuthController extends Controller
         return response()->json(['token' => $token], 201);
     }
 
-    public function login(LoginUser $request) 
+    public function login(LoginUser $request)
     {
-        $token = $this->service->login($request->all());
+        $data = $this->service->login($request->all());
+
+        ['token' => $token] = $data;
 
         if (!$token) {
             return response()->json(['message' => 'Credenciais invalidas'], 401);
         }
 
-        return response()->json(['token' => $token], 200);
+        return response()->json($data, 200);
     }
 
-    public function logout(Request $request) 
+    public function logout(Request $request)
     {
         $this->service->logout($request->user());
     }

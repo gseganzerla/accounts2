@@ -32,7 +32,15 @@ class AuthService
             return false;
         }
 
-        return $user->createToken('login')->plainTextToken;
+        return [
+            'user' => [
+                'name' => $user->name,
+                'email' => $user->email,
+                'uuid' => $user->uuid,
+            ],
+            'token' => $user->createToken('login')->plainTextToken,
+
+        ];
     }
 
     public function logout(User $user)
