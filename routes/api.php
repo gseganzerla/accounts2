@@ -15,6 +15,10 @@ Route::controller(AuthController::class)->group(function () {
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource('accounts', AccountController::class);
     Route::apiResource('users', UserController::class);
+
+    Route::controller(UserController::class)->group(function (){
+        Route::get('/users/me', 'me')->name('users.me');
+    });
 });
 
 // Route::get('/', function () {
