@@ -21,20 +21,26 @@ class AuthService
     {
         $user = $this->userRepository->create($data);
 
-        UserCreatedJob::dispatch($user);
-
-        return $user->createToken('login')->plainTextToken;
-    }
-
-    public function login(array $data)
-    {
-        
         if (!Auth::attempt($data)) {
             throw ValidationException::withMessages([
                 'email' => ['The provided credentials are incorrect.'],
             ]);
         }
-        
+
+        // UserCreatedJob::dispatch($user);
+
+        return $user;
+    }
+
+    public function login(array $data)
+    {
+
+        if (!Auth::attempt($data)) {
+            throw ValidationException::withMessages([
+                'email' => ['The provided credentials are incorrect.'],
+            ]);
+        }
+
         $user = $this->userRepository->byEmail($data['email']);
 
         return $user;
