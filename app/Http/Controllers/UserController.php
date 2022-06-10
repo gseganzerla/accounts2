@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UpdateUser;
 use App\Http\Requests\UpdateUserPassword;
 use App\Http\Resources\UserResource;
+use App\Models\User;
 use App\Services\UserService;
 
 class UserController extends Controller
@@ -57,5 +58,12 @@ class UserController extends Controller
         $this->userService->changeCurrentPassword($request->all());
 
         return response()->json(['message' => 'Success']);
+    }
+
+    public function me()
+    {
+        $user = $this->userService->me();
+
+        return new UserResource($user);
     }
 }

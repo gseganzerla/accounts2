@@ -5,7 +5,9 @@ namespace App\Services;
 use App\Jobs\UserCreatedJob;
 use App\Models\User;
 use App\Repositories\Contracts\UserRepositoryInterface;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 
 class AuthService
 {
@@ -26,21 +28,16 @@ class AuthService
 
     public function login(array $data)
     {
+        
+        if (!Auth::attempt($data)) {
+            throw ValidationException::withMessages([
+                'email' => ['The provided credentials are incorrect.'],
+            ]);
+        }
+        
         $user = $this->userRepository->byEmail($data['email']);
 
-        if (!$user || !Hash::check($data['password'], $user->password)) {
-            return false;
-        }
-
-        return [
-            'user' => [
-                'name' => $user->name,
-                'email' => $user->email,
-                'uuid' => $user->uuid,
-            ],
-            'token' => $user->createToken('login')->plainTextToken,
-
-        ];
+        return $user;
     }
 
     public function logout(User $user)

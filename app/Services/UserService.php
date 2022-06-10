@@ -30,6 +30,11 @@ class UserService
         $this->repository->destroy($user);
     }
 
+    public function me()
+    {
+        return $this->repository->byUuid(auth()->user()->uuid);
+    }
+
     // trait to check the current password
     public function changeCurrentPassword(array $data)
     {

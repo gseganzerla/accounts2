@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginUser;
 use App\Http\Requests\StoreUser;
+use App\Http\Resources\UserResource;
 use App\Services\AuthService;
 use Illuminate\Http\Request;
 
@@ -23,15 +24,9 @@ class AuthController extends Controller
 
     public function login(LoginUser $request)
     {
-        $data = $this->service->login($request->all());
+        $user = $this->service->login($request->all());
 
-        ['token' => $token] = $data;
-
-        if (!$token) {
-            return response()->json(['message' => 'Credenciais invalidas'], 401);
-        }
-
-        return response()->json($data, 200);
+        return new UserResource($user);
     }
 
     public function logout(Request $request)

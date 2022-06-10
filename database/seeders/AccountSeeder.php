@@ -20,7 +20,7 @@ class AccountSeeder extends Seeder
             ->count(10)
             ->for(User::factory()
                 ->state([
-                    'email' => 'g.seganzerla@gmail.com'
+                    'email' => 'fake@email.com'
                 ])
                 ->create());
     }
