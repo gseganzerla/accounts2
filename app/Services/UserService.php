@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\User;
 use App\Repositories\Contracts\UserRepositoryInterface;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserService
@@ -28,6 +29,14 @@ class UserService
     public function destroy(User $user)
     {
         $this->repository->destroy($user);
+    }
+
+    public function me()
+    {
+
+        Auth::check();
+
+        return $this->repository->byUuid(auth()->user()->uuid);
     }
 
     // trait to check the current password

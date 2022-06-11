@@ -12,12 +12,20 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('/auth/login', 'login')->name('auth.login');
 });
 
-Route::group(['prefix' => 'home', 'middleware' => 'auth:sanctum'], function () {
+Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource('accounts', AccountController::class);
     Route::apiResource('users', UserController::class);
+
+    Route::controller(UserController::class)->group(function () {
+        Route::get('/users/me', 'me')->name('users.me');
+    });
+
+    Route::controller(AuthController::class)->group(function () {
+        Route::post('/auth/logout', 'logout')->name('auth.logout');
+    });
 });
 
-Route::get('/', function () {
-    xdebug_info();
-    exit;
-});
+// Route::get('/', function () {
+//     xdebug_info();
+//     exit;
+// });
