@@ -48,6 +48,10 @@ class AuthService
 
     public function logout(User $user)
     {
-        $user->tokens()->delete();
+        Auth::logout();
+
+        Auth::check();
+        $a = 2;
+
     }
 }

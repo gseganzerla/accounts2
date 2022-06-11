@@ -31,6 +31,11 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        $this->service->logout($request->user());
+        $this->service->logout(auth()->user());
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return response()->noContent();
     }
 }
