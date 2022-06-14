@@ -9,6 +9,8 @@ use Illuminate\Database\Seeder;
 
 class AccountSeeder extends Seeder
 {
+    use WithoutModelEvents;
+
     /**
      * Run the database seeds.
      *
@@ -18,10 +20,8 @@ class AccountSeeder extends Seeder
     {
         Account::factory()
             ->count(10)
-            ->for(User::factory()
-                ->state([
-                    'email' => 'fake@email.com'
-                ])
-                ->create());
+            ->for(User::factory()->state([
+                'email' => 'faker@email.com'
+            ]))->create();
     }
 }
