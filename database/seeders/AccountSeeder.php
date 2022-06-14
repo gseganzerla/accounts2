@@ -21,7 +21,8 @@ class AccountSeeder extends Seeder
         Account::factory()
             ->count(10)
             ->for(User::factory()->state([
-                'email' => 'faker@email.com'
+                'email' => 'fake@email.com',
+                'password' => bcrypt('password')
             ]))->create();
     }
 }
