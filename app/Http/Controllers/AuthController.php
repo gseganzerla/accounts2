@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginUser;
-use App\Http\Requests\StoreUser;
+use App\Http\Requests\StoreUpdateUser;
 use App\Http\Resources\UserResource;
 use App\Services\AuthService;
 use Illuminate\Http\Request;
@@ -15,7 +15,7 @@ class AuthController extends Controller
     {
     }
 
-    public function register(StoreUser $request)
+    public function register(StoreUpdateUser $request)
     {
         $user = $this->service->register($request->all());
 

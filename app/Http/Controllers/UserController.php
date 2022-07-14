@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreUpdateUser;
 use App\Http\Requests\UpdateUser;
 use App\Http\Requests\UpdateUserPassword;
 use App\Http\Resources\UserResource;
-use App\Models\User;
 use App\Services\UserService;
 
 class UserController extends Controller
@@ -33,7 +33,7 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateUser $request)
+    public function update(StoreUpdateUser $request)
     {
         $this->userService->update(auth()->user(), $request->all());
 
