@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUpdateAccount;
+use App\Http\Resources\AccountCollection;
 use App\Http\Resources\AccountResource;
 use App\Models\Account;
 use App\Services\AccountService;
@@ -12,6 +13,7 @@ class AccountController extends Controller
 {
     public function __construct(protected AccountService $service)
     {
+        $this->authorizeResource(Account::class, 'account');
     }
 
 
@@ -25,7 +27,7 @@ class AccountController extends Controller
 
         $accounts = $this->service->index($request->query('search'));
 
-        return AccountResource::collection($accounts);
+        return new AccountCollection($accounts);
     }
 
     /**

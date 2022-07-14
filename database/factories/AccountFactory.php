@@ -19,9 +19,9 @@ class AccountFactory extends Factory
         return [
             'username' => $this->faker->userName,
             'password' => $this->faker->password,
-            'email' => $this->faker->unique()->safeEmail,
-            'account' => $this->faker->word,
             'uuid' => $this->faker->uuid,
+            'email' => $this->faker->safeEmail(),
+            'account' => $this->faker->word
         ];
     }
 }

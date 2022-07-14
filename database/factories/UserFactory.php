@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -10,6 +11,8 @@ use Illuminate\Support\Str;
  */
 class UserFactory extends Factory
 {
+    use WithoutModelEvents;
+
     /**
      * Define the model's default state.
      *
@@ -21,8 +24,9 @@ class UserFactory extends Factory
             'name' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password' => 'password',
+            'password' => '$2y$10$.DmUJlnWsv/EfrMFBpB2cOn3O.v5A0L12YtmfWZxps3xZ8fMUdkw2', //password
             'remember_token' => Str::random(10),
+            'uuid' => $this->faker->uuid()
         ];
     }
 
