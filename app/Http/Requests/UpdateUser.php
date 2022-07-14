@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateUser extends FormRequest
 {
@@ -23,9 +24,21 @@ class UpdateUser extends FormRequest
      */
     public function rules()
     {
-        return [
+        $uuid = $this->segment(2);
+
+        $rules = [
             'name' => ['required', 'min:3', 'max:30'],
-            'email' => ['required', 'email', 'max:30', 'unique:users,email'],
+            'email' => [
+                'required', 'email', 'max:50',
+                Rule::unique('users', 'uuid')->ignore($uuid)
+            ],
+            'password' => ['required', 'string', 'min:4', 'max:30'],
         ];
+
+        if ($this->method() == 'PUT'){
+            $rules['password'] = ['nullable', 'string', 'min:6', 'max:30'];
+        }
+
+        return $rules;
     }
 }
