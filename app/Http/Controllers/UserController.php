@@ -35,9 +35,9 @@ class UserController extends Controller
      */
     public function update(StoreUpdateUser $request)
     {
-        $this->userService->update(auth()->user(), $request->all());
+        $user = $this->userService->update(auth()->user(), $request->validated());
 
-        return response()->json(['message' => 'Success']);
+        return new UserResource($user);
     }
 
     /**

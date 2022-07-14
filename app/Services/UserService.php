@@ -23,7 +23,7 @@ class UserService
 
     public function update(User $user, array $data)
     {
-        $this->repository->update($user, $data);
+        return $this->repository->update($user, $data);
     }
 
     public function destroy(User $user)
