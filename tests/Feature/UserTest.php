@@ -33,13 +33,13 @@ class UserTest extends TestCase
         $response = $this->getJson(route('users.show', $this->user->uuid));
         $response->assertStatus(200)
             ->assertJsonStructure([
-                'data' => [
+                'user' => [
                     'name',
                     'email',
                     'identify'
                 ]
             ])->assertJson([
-                'data' => [
+                'user' => [
                     'identify' => $this->user->uuid
                 ]
             ]);
