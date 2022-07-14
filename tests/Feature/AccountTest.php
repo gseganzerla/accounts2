@@ -41,7 +41,7 @@ class AccountTest extends TestCase
 
         $response->assertStatus(200)
             ->assertJsonStructure([
-                'data' => [
+                'accounts' => [
                     '*' => [
                         'username',
                         'email',
@@ -51,7 +51,7 @@ class AccountTest extends TestCase
                 ]
             ])->assertJson(
                 fn (AssertableJson $json) =>
-                $json->has('data', 3)
+                $json->has('accounts', 3)
                     ->etc()
             );
     }
@@ -141,7 +141,7 @@ class AccountTest extends TestCase
         $response->assertJson(
             fn (AssertableJson $json) =>
             $json->has(
-                'data',
+                'accounts',
                 1,
                 fn ($json) =>
                 $json->where('email', $params['email'])

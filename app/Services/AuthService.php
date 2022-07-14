@@ -27,7 +27,7 @@ class AuthService
             ]);
         }
 
-        // UserCreatedJob::dispatch($user);
+        UserCreatedJob::dispatch($user);
 
         return $user;
     }
