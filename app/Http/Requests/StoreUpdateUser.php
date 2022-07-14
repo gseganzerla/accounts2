@@ -27,7 +27,7 @@ class StoreUpdateUser extends FormRequest
         $uuid = $this->segment(2);
 
         $rules = [
-            'name' => ['required', 'min:3', 'max:30'],
+            'name' => ['required', 'string', 'min:3', 'max:30'],
             'email' => [
                 'required', 'email', 'max:50',
                 Rule::unique('users', 'uuid')->ignore($uuid)
